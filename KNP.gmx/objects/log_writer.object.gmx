@@ -28,7 +28,7 @@
             <string>
 //start SYSTEM.LOG
 log_delay=30;
-f=file_text_open_write('system.log');
+f=file_text_open_write('system'+string(game_id)+'.log');
 if f&lt;0 game_end();
 log=ds_queue_create();
 file_text_write_string(f,string(timemark())+': Log queue created. ( logging interval: '+string(log_delay)+')');

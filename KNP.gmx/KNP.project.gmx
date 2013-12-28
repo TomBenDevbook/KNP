@@ -14,10 +14,12 @@
   <scripts name="scripts">
     <script>scripts\timemark.gml</script>
     <script>scripts\write_log.gml</script>
+    <script>scripts\wait.gml</script>
+    <script>scripts\blekota.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\log_writer</object>
-    <object>objects\object0</object>
+    <object>objects\starter</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
