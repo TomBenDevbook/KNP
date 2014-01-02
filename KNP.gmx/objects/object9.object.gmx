@@ -2,21 +2,21 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>605</id>
+        <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
         <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
@@ -25,58 +25,31 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-//start SYSTEM.LOG
-log_delay=30;
-f=file_text_open_write('system'+string(window_handle())+'.log');
-if f&lt;0 game_end();
-log=ds_queue_create();
-file_text_write_string(f,string(timemark())+': Log queue created. ( logging interval: '+string(log_delay)+')');
-file_text_writeln(f);
-alarm[1]=log_delay;
-
-
-
-
-
-</string>
+            <string>start gameserver, need to be set variable players</string>
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="1" enumb="0">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
+        <id>301</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
         <isquestion>0</isquestion>
         <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
+        <exetype>1</exetype>
+        <functionname>action_set_alarm</functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
-            <kind>1</kind>
-            <string>
-
-write_log('Destroying log_writer, log must finish.');
-
-//flush
-while !ds_queue_empty(log)
-{
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
-}
-
-
-file_text_close(f);
-
-
-</string>
+            <kind>0</kind>
+            <string>1</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>1</string>
           </argument>
         </arguments>
       </action>
@@ -84,12 +57,12 @@ file_text_close(f);
     <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>605</id>
+        <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
         <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
@@ -98,21 +71,10 @@ file_text_close(f);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-
-if !ds_queue_empty(log)
-{
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
-}
-alarm[1]=log_delay;
-
-</string>
+            <string>Establish TCP server &amp; lopback client</string>
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="7" enumb="3">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -129,21 +91,32 @@ alarm[1]=log_delay;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>//PUBLIC VARIABLES
+/*
+gameserver, gameport...for udp broadcast
+broadcast_buffer...fixed 256x1
+powerword...randomly generated short string for check sync with '¤' tailed
+*/
 
-write_log('Game ends, log must finish.');
+//establish tcp gameserver
+write_log('Trying to establish tcp gameserver.');
+gameport = FIRST_PORT; //start with this gameport number 
 
-//flush
-while !ds_queue_empty(log)
+  gameserver = network_create_server(network_socket_tcp, gameport, players);      // variable players needs to be set by creator
+ while (gameserver &lt; 0 &amp;&amp; gameport &lt; 65535)
+    {
+    gameport++
+    gameserver = network_create_server(network_socket_tcp, gameport, players);    // variable players needs to be set by creator
+    }    
+if gameport&gt;=65535 { write_log('Fail to establish tcp gameserver. No response on any gameport..');  game_end(); } 
+else
 {
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
+write_log('TCP gameserver '+string(gameserver)+' created at gameport '+string(gameport)+'for '+string(players)+'players.');
 }
+  
 
 
-file_text_close(f);
-
-
+ 
 </string>
           </argument>
         </arguments>

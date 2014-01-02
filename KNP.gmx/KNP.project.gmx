@@ -5,10 +5,14 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\s_button</sprite>
+    <sprite>sprites\s_radio</sprite>
+  </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
     <background>background\background1</background>
+    <background>background\background2</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -16,14 +20,43 @@
     <script>scripts\write_log.gml</script>
     <script>scripts\wait.gml</script>
     <script>scripts\blekota.gml</script>
+    <script>scripts\is_between.gml</script>
+    <script>scripts\IP_control.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\small_font</font>
+    <font>fonts\font1</font>
+  </fonts>
   <objects name="objects">
-    <object>objects\log_writer</object>
-    <object>objects\starter</object>
+    <objects name="R1">
+      <object>objects\log_writer</object>
+      <object>objects\lang</object>
+      <object>objects\starter</object>
+    </objects>
+    <objects name="R2">
+      <object>objects\showMyIP</object>
+      <object>objects\button_class</object>
+      <object>objects\v_Server</object>
+      <object>objects\v_Client</object>
+      <object>objects\vstupIP</object>
+      <object>objects\radioPlayers</object>
+    </objects>
+    <objects name="R3">
+      <object>objects\obj_server</object>
+      <object>objects\slot</object>
+      <object>objects\obj_client</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
+    <room>rooms\room1</room>
+    <room>rooms\room_server</room>
+    <room>rooms\room_client</room>
   </rooms>
+  <constants number="2">
+    <constant name="PLAYER_LINE_HEIGHT">50</constant>
+    <constant name="FIRST_PORT">6910</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

@@ -1,4 +1,5 @@
 
+randomize();
 
 var qwaq='';
 

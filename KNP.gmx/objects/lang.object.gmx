@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -25,55 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-//start SYSTEM.LOG
-log_delay=30;
-f=file_text_open_write('system'+string(window_handle())+'.log');
-if f&lt;0 game_end();
-log=ds_queue_create();
-file_text_write_string(f,string(timemark())+': Log queue created. ( logging interval: '+string(log_delay)+')');
-file_text_writeln(f);
-alarm[1]=log_delay;
-
-
-
-
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="1" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>
-
-write_log('Destroying log_writer, log must finish.');
-
-//flush
-while !ds_queue_empty(log)
-{
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
-}
-
-
-file_text_close(f);
+            <string>alarm[1]=1;
 
 
 </string>
@@ -84,12 +36,12 @@ file_text_close(f);
     <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>605</id>
+        <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
         <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
@@ -98,21 +50,10 @@ file_text_close(f);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-
-if !ds_queue_empty(log)
-{
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
-}
-alarm[1]=log_delay;
-
-</string>
+            <string>cz language</string>
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="7" enumb="3">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -130,20 +71,25 @@ alarm[1]=log_delay;
           <argument>
             <kind>1</kind>
             <string>
-
-write_log('Game ends, log must finish.');
-
-//flush
-while !ds_queue_empty(log)
-{
-file_text_write_string(f,string(ds_queue_dequeue(log)));
-file_text_writeln(f);
-}
-
-
-file_text_close(f);
+text[1]='Vlastní IP adresa: ';
+text[2]='Vytvořit server';
+text[3]='Vytvořit klienta';
+text[4]='Počet hráčů: ';
+text[5]='IP adresa serveru: ';
+text[6]='Napiš a potvrď';
+text[7]='Neplatná IP adresa!';
+text[8]='Adresa vložena.';
+text[9]='Připojeno k serveru.';
 
 
+
+
+
+
+
+
+
+  
 </string>
           </argument>
         </arguments>
