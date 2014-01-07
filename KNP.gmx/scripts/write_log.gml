@@ -1,3 +1,4 @@
+///write_log(string)
 
 // ADD strign into a log queue
 // 

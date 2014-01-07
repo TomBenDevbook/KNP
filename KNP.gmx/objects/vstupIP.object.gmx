@@ -75,6 +75,10 @@ info='';
             <string>
 ids=instance_create(0,0,obj_client);
 (ids).IP=IPaddr;
+(ids).name=namer.value;
+(ids).type=string(o_type.image_index);
+
+
 
 
 

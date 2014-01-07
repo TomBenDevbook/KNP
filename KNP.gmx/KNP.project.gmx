@@ -8,6 +8,8 @@
   <sprites name="sprites">
     <sprite>sprites\s_button</sprite>
     <sprite>sprites\s_radio</sprite>
+    <sprite>sprites\s_type</sprite>
+    <sprite>sprites\s_name</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -40,6 +42,8 @@
       <object>objects\v_Client</object>
       <object>objects\vstupIP</object>
       <object>objects\radioPlayers</object>
+      <object>objects\o_type</object>
+      <object>objects\namer</object>
     </objects>
     <objects name="R3">
       <object>objects\obj_server</object>

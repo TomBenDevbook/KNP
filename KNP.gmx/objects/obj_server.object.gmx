@@ -90,6 +90,7 @@
           <argument>
             <kind>1</kind>
             <string>Clients=ds_map_create();
+servername=blekota()+blekota();
 
 
 </string>
@@ -224,19 +225,27 @@ write_log('TCP gameserver '+string(gameserver)+' created at serverport '+string(
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if ds_map_find_value(async_load, "type")==1 //incoming connection
+            <string> 
+ 
+//----------------------------------------------------------------------------------------
+if ds_map_find_value(async_load, "type")==1 //incoming connection
 {
 var socket=ds_map_find_value(async_load, "socket");
-ids=instance_create(200,-100,slot); //vytvořit mimo okno
+ids=instance_create(200,-100,slot);                      //vytvořit mimo okno
 ds_map_add(Clients,socket,ids);                          //Clients has server link: socket &lt;-&gt; instance_id
 
 (ids).IP=ds_map_find_value(async_load, "IP");            //IP původu
 (ids).socket=ds_map_find_value(async_load, "socket");    //socket připojení
-(ids).number=real((ids).socket);                      //pořadové číslo
+(ids).number=real((ids).socket);                         //pořadové číslo
 (ids).y=(ids).number*(PLAYER_LINE_HEIGHT/2);
+
+write_log('IP: '+string((ids).IP)+' on socket: '+string((ids).socket)+' connected to: '+string(ids));
+
+effect_create_above(ef_ring,50,50,1,c_green);
+
 }
 
-
+//---------------------------------------------------------------------------------------
 if ds_map_find_value(async_load, "type")==2 //disconnect
 {
 with(ds_map_find_value(Clients,ds_map_find_value(async_load, "socket")))
@@ -244,7 +253,44 @@ with(ds_map_find_value(Clients,ds_map_find_value(async_load, "socket")))
 instance_destroy();
 }
 ds_map_delete(Clients,ds_map_find_value(async_load, "socket"));
+
+effect_create_above(ef_ring,50,50,1,c_red);
+write_log('Socket: '+string(ds_map_find_value(async_load, "socket"))+' disconnected.');
 }
+//----------------------------------------------------------------------------------------
+
+if ds_map_find_value(async_load, "type")==3 //data packets
+{
+
+
+//read values
+var buff=ds_map_find_value(async_load, "buffer");                //buffer_create(512,buffer_grow,1);
+buffer_seek(buff,buffer_seek_start,0);
+stype=buffer_read(buff,buffer_string);
+sname=buffer_read(buff,buffer_string);
+sstatus=buffer_read(buff,buffer_string);
+schoice=buffer_read(buff,buffer_string);
+sindex=buffer_read(buff,buffer_string);
+//buffer_delete(buff); // GM should delete it itself
+
+effect_create_above(ef_ring,50,50,1,c_white);
+
+with(ds_map_find_value(Clients,ds_map_find_value(async_load, "id")))
+{
+type=obj_server.stype;
+name=obj_server.sname;
+status=obj_server.sstatus;
+choice=obj_server.schoice;
+index=obj_server.sindex;
+sprite_index=s_type;
+image_index=real(index);
+effect_create_above(ef_ring,50,y,1,c_blue);
+
+write_log('Data arrived to id '+string(id)+' (type,name,status,choice,index): '+string(type)+', '+string(name)+', '+string(status)+', '+string(choice)+', '+string(index)+' .');
+}
+}
+
+
 
 </string>
           </argument>

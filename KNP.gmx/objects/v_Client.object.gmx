@@ -30,6 +30,7 @@ if instance_number(v_Server)&gt;0                  // fáze 1 volba klient / ser
 {
 write_log('Client side selected..');
 with(v_Server) { instance_destroy(); }
+instance_create(40,50,o_type);
 caption=lang.text[6];
 }
 else                                           // fáze 2 nastavení IP adresy

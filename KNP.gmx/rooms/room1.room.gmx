@@ -53,6 +53,7 @@
     <instance objName="showMyIP" x="0" y="0" name="inst_3871B0A0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="v_Server" x="150" y="60" name="inst_93A10E5C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="v_Client" x="150" y="130" name="inst_A3132348" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="namer" x="150" y="20" name="inst_9DA4C6D4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

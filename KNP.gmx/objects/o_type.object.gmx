@@ -25,21 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//default data
-type=string(-1); //0 - human, 1 - bot, -1 nothing selected
-name='Unnamed';        //
-status='off';          //waiting for server data
-choice='nothing';        //nothing, stone, scissors, paper
-index=string(0);
-
-
+            <string>
+image_speed=0;
+image_index=0;
 
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="6" enumb="7">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -56,34 +51,9 @@ index=string(0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if sprite_index!=-1 draw_sprite(sprite_index,real(type),20,y);
-draw_text(x,y,'no: '+string(number)+', socket: '+string(socket)+', name: '+name+' / '+type+' / '+status+' / '+choice+' / '+index);
-
-
+            <string>image_index=!image_index;
 
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>605</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>off</string>
           </argument>
         </arguments>
       </action>

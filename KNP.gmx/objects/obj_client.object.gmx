@@ -11,6 +11,38 @@
     <event eventtype="0" enumb="0">
       <action>
         <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>long_interval=100;
+
+/*
+//default data
+type=o_type.image_index; //0 - human, 1 - bot
+name=namer.value;        //generated name
+*/
+status='ready';          //waiting for server data
+choice='nothing';        //nothing, stone, scissors, paper
+index=string(0);
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
         <id>301</id>
         <kind>0</kind>
         <userelative>-1</userelative>
@@ -30,6 +62,52 @@
           <argument>
             <kind>4</kind>
             <string>1</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>sending data</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_user(1);
+alarm[4]=long_interval;
+
+
+</string>
           </argument>
         </arguments>
       </action>
@@ -71,7 +149,21 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>room_goto(room_client);
+            <string>/*
+//default data
+type=o_type.image_index; //0 - human, 1 - bot
+name=namer.value;        //generated name
+status='ready';          //waiting for server data
+choice='nothing';        //nothing, stone, scissors, paper
+index=0;
+*/
+
+event_user(1);
+
+
+room_goto(room_client);
+alarm[4]=long_interval;
+
 
 
 
@@ -197,44 +289,110 @@
         </arguments>
       </action>
     </event>
-    <event eventtype="10" enumb="32">
+    <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>
-        <id>532</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_effect</functionname>
+        <exetype>2</exetype>
+        <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
-            <kind>4</kind>
-            <string>1</string>
+            <kind>1</kind>
+            <string>//send
+var buff=buffer_create(512,buffer_grow,1);
+buffer_seek(buff,buffer_seek_start,0);
+buffer_write(buff,buffer_string,string(type));
+buffer_write(buff,buffer_string,name);
+buffer_write(buff,buffer_string,status);
+buffer_write(buff,buffer_string,choice);
+buffer_write(buff,buffer_string,string(index));
+network_send_packet( gameclient, buff, buffer_tell(buff) );
+buffer_delete(buff);
+
+</string>
           </argument>
-          <argument>
-            <kind>0</kind>
-            <string>50</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>50</string>
-          </argument>
-          <argument>
-            <kind>4</kind>
-            <string>1</string>
-          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>551752</libid>
+        <id>34</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring>draw_set_color(argument0);
+draw_set_alpha(argument4);
+draw_set_font(argument1);
+draw_set_halign(argument2);
+draw_set_valign(argument3);
+depth=argument5;
+
+</codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
           <argument>
             <kind>13</kind>
-            <string>33023</string>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>12</kind>
+            <font>small_font</font>
           </argument>
           <argument>
             <kind>4</kind>
             <string>1</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>1</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>1</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if room==room_client
+{
+draw_text(150,10,' name: '+name+' / '+type+' / '+status+' / '+choice+' / '+index);
+}
+
+
+</string>
           </argument>
         </arguments>
       </action>
