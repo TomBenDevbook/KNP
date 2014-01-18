@@ -312,7 +312,6 @@ buffer_write(buff,buffer_string,ds_queue_dequeue(hafan)); //name ---------------
 }
 ds_queue_destroy(hafan);
 
-buffer_write(buff,buffer_string,'test'); //end of message
 buffer_write(buff,buffer_string,'EOM'); //end of message
 
 
