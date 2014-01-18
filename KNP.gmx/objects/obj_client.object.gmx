@@ -289,6 +289,110 @@ alarm[4]=long_interval;
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="68">
+      <action>
+        <libid>1</libid>
+        <id>532</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_effect</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>-1</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>4</kind>
+            <string>3</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>1</string>
+          </argument>
+          <argument>
+            <kind>13</kind>
+            <string>8388736</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>1</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if ds_map_find_value(async_load, "type")==3 //data packets comming
+{
+
+//---- go to another room
+if room!=room_client 
+{
+room_goto(room_client); //první odezva od serveru
+}
+else //každá další
+{
+
+}
+
+//read values------------ every sending
+var something, maxnames;
+something=''; maxnames=100; 
+
+ds_queue_clear(list_of_players.playernames); //clear the cache
+ds_queue_clear(list_of_players.temp); //clear the cache
+
+
+var buff=ds_map_find_value(async_load, "buffer");                //buffer_create(512,buffer_grow,1);
+buffer_seek(buff,buffer_seek_start,0);
+list_of_players.servername=buffer_read(buff,buffer_string);
+while(maxnames&gt;0)
+{
+something=buffer_read(buff,buffer_string);
+if something!='EOM' { ds_queue_enqueue(list_of_players.playernames,something); break; }
+maxnames--;
+}
+ds_queue_enqueue(list_of_players.playernames,string(maxnames)); //debug info
+ds_queue_clear(list_of_players.temp); //clear the cache
+
+buffer_delete(buff); // GM should delete itself, but prevent...
+//------------ end of reading
+
+
+
+}
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>

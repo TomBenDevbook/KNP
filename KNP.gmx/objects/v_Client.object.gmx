@@ -60,7 +60,8 @@ with(vstupIP) { event_user(1); } //jako i enter přejde na kontrolu adresy
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>caption=lang.text[3];
+            <string>
+caption=lang.text[3];
 
 
 

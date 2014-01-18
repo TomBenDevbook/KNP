@@ -90,7 +90,7 @@
           <argument>
             <kind>1</kind>
             <string>Clients=ds_map_create();
-servername=blekota()+blekota();
+//servername=blekota()+blekota();
 
 
 </string>
@@ -237,7 +237,7 @@ ds_map_add(Clients,socket,ids);                          //Clients has server li
 (ids).IP=ds_map_find_value(async_load, "IP");            //IP původu
 (ids).socket=ds_map_find_value(async_load, "socket");    //socket připojení
 (ids).number=real((ids).socket);                         //pořadové číslo
-(ids).y=(ids).number*(PLAYER_LINE_HEIGHT/2);
+(ids).y=(ids).number*(PLAYER_LINE_HEIGHT);
 
 write_log('IP: '+string((ids).IP)+' on socket: '+string((ids).socket)+' connected to: '+string(ids));
 
@@ -263,6 +263,7 @@ if ds_map_find_value(async_load, "type")==3 //data packets
 {
 
 
+
 //read values
 var buff=ds_map_find_value(async_load, "buffer");                //buffer_create(512,buffer_grow,1);
 buffer_seek(buff,buffer_seek_start,0);
@@ -271,9 +272,9 @@ sname=buffer_read(buff,buffer_string);
 sstatus=buffer_read(buff,buffer_string);
 schoice=buffer_read(buff,buffer_string);
 sindex=buffer_read(buff,buffer_string);
-//buffer_delete(buff); // GM should delete it itself
+//buffer_delete(buff); // deleted later - double usage
 
-effect_create_above(ef_ring,50,50,1,c_white);
+
 
 with(ds_map_find_value(Clients,ds_map_find_value(async_load, "id")))
 {
@@ -288,6 +289,37 @@ effect_create_above(ef_ring,50,y,1,c_blue);
 
 write_log('Data arrived to id '+string(id)+' (type,name,status,choice,index): '+string(type)+', '+string(name)+', '+string(status)+', '+string(choice)+', '+string(index)+' .');
 }
+
+
+
+ids=ds_map_find_value(Clients,ds_map_find_value(async_load, "id"));
+
+hafan=ds_queue_create(); //collect herd of slots------------------------------------------------- in
+with(slot)
+{
+ds_queue_enqueue(obj_server.hafan,name);
+}
+
+//send response
+var buff=buffer_create(1024,buffer_grow,1);
+
+buffer_seek(buff,buffer_seek_start,0);
+buffer_write(buff,buffer_string,servername); //server name
+
+while(!ds_queue_empty(hafan))
+{
+buffer_write(buff,buffer_string,ds_queue_dequeue(hafan)); //name --------------------------------- out
+}
+ds_queue_destroy(hafan);
+
+buffer_write(buff,buffer_string,'test'); //end of message
+buffer_write(buff,buffer_string,'EOM'); //end of message
+
+
+network_send_packet((ids).socket, buff, buffer_tell(buff) );
+buffer_delete(buff);
+
+
 }
 
 
