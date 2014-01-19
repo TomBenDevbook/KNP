@@ -90,8 +90,8 @@ line=0; sizeline=14;
 ds_queue_copy(temp,playernames); // fuj, ale jsem to poflikoval - nesmazatelná fronta, která se vymaže jen při update
 
 
-draw_text(x,y+(line*sizeline),"LIST size: "+string(ds_queue_size(playernames))); line++;
-draw_text(x,y+(line*sizeline),servername); line++;
+//draw_text(x,y+(line*sizeline),"LIST size: "+string(ds_queue_size(playernames))); line++;
+draw_text(x,y+(line*sizeline),servername); line+=2;
 
 
 while !ds_queue_empty(playernames)

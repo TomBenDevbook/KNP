@@ -31,6 +31,8 @@ name='Unnamed';        //
 status='off';          //waiting for server data
 choice='nothing';        //nothing, stone, scissors, paper
 index=string(0);
+number=-1;
+
 
 
 

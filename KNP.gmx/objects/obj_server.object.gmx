@@ -89,8 +89,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Clients=ds_map_create();
-//servername=blekota()+blekota();
+            <string>
+event_user(0);
 
 
 </string>
@@ -232,12 +232,14 @@ if ds_map_find_value(async_load, "type")==1 //incoming connection
 {
 var socket=ds_map_find_value(async_load, "socket");
 ids=instance_create(200,-100,slot);                      //vytvořit mimo okno
-ds_map_add(Clients,socket,ids);                          //Clients has server link: socket &lt;-&gt; instance_id
+N=real(socket); //číslo socketu
+pl[N]=ids;                                    // rovnou zapsat id do pole ideček
 
-(ids).IP=ds_map_find_value(async_load, "IP");            //IP původu
-(ids).socket=ds_map_find_value(async_load, "socket");    //socket připojení
-(ids).number=real((ids).socket);                         //pořadové číslo
-(ids).y=(ids).number*(PLAYER_LINE_HEIGHT);
+//fill locals with params
+(ids).IP=ds_map_find_value(async_load, "IP");              //IP původu
+(ids).socket=socket;                                       //socket připojení jako string
+(ids).number=N;                                          //číslo socketu jako pořadové číslo
+(ids).y=(ids).number*(PLAYER_LINE_HEIGHT);                 //poloha ve výpisu
 
 write_log('IP: '+string((ids).IP)+' on socket: '+string((ids).socket)+' connected to: '+string(ids));
 
@@ -248,16 +250,17 @@ effect_create_above(ef_ring,50,50,1,c_green);
 //---------------------------------------------------------------------------------------
 if ds_map_find_value(async_load, "type")==2 //disconnect
 {
-with(ds_map_find_value(Clients,ds_map_find_value(async_load, "socket")))
+with(pl[real(ds_map_find_value(async_load, "socket"))])
 {
+obj_server.pl[number]=-1; // delete self from array
 instance_destroy();
 }
-ds_map_delete(Clients,ds_map_find_value(async_load, "socket"));
-
 effect_create_above(ef_ring,50,50,1,c_red);
 write_log('Socket: '+string(ds_map_find_value(async_load, "socket"))+' disconnected.');
 }
 //----------------------------------------------------------------------------------------
+
+
 
 if ds_map_find_value(async_load, "type")==3 //data packets
 {
@@ -275,8 +278,10 @@ sindex=buffer_read(buff,buffer_string);
 //buffer_delete(buff); // deleted later - double usage
 
 
+ids=pl[ real(ds_map_find_value(async_load, "id")) ]; //idečko slotu
 
-with(ds_map_find_value(Clients,ds_map_find_value(async_load, "id")))
+
+with( ids )
 {
 type=obj_server.stype;
 name=obj_server.sname;
@@ -292,28 +297,26 @@ write_log('Data arrived to id '+string(id)+' (type,name,status,choice,index): '+
 
 
 
-ids=ds_map_find_value(Clients,ds_map_find_value(async_load, "id"));
 
-hafan=ds_queue_create(); //collect herd of slots------------------------------------------------- in
-with(slot)
-{
-ds_queue_enqueue(obj_server.hafan,name);
-}
 
 //send response
-var buff=buffer_create(1024,buffer_grow,1);
+var buff=buffer_create(1024,buffer_grow,1), slid;
 
 buffer_seek(buff,buffer_seek_start,0);
 buffer_write(buff,buffer_string,servername); //server name
 
-while(!ds_queue_empty(hafan))
+i=1;
+repeat(10)
 {
-buffer_write(buff,buffer_string,ds_queue_dequeue(hafan)); //name --------------------------------- out
+slid=pl[i];
+if slid&gt;0 buffer_write(buff,buffer_string,(slid).name)
+else 
+{
+ if i&gt;players buffer_write(buff,buffer_string,'disabled')
+ else  buffer_write(buff,buffer_string,'not connected')
 }
-ds_queue_destroy(hafan);
-
-buffer_write(buff,buffer_string,'EOM'); //end of message
-
+i++;
+}
 
 network_send_packet((ids).socket, buff, buffer_tell(buff) );
 buffer_delete(buff);
@@ -321,6 +324,104 @@ buffer_delete(buff);
 
 }
 
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>clear array of ids</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//player slot objects ids - array system
+i=0;
+repeat(11)
+{
+pl[i++]=-1;
+} 
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>collect existing</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//player slot objects ids - array system
+i=0;
+with (slot)
+{
+obj_server.pl[number]=id;
+} 
 
 
 </string>
@@ -345,7 +446,10 @@ buffer_delete(buff);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_text(10,10,string(instance_number(slot))+', '+string(ds_map_size(Clients)));
+            <string>
+draw_set_halign(fa_left);
+draw_text(10,10,'Connected '+string(instance_number(slot))+' of '+string(players));
+draw_set_halign(fa_middle);
 
 
 
