@@ -368,12 +368,19 @@ ds_queue_clear(list_of_players.temp); //clear the cache
 var buff=ds_map_find_value(async_load, "buffer");                //buffer_create(512,buffer_grow,1);
 buffer_seek(buff,buffer_seek_start,0);
 
-list_of_players.servername=buffer_read(buff,buffer_string); //servername
+rezim=buffer_read(buff,buffer_string); // režim síťového provozu: slow or quick 
 
+//--- SLOW READING -----
+if rezim=='slow'
+{
+list_of_players.servername=buffer_read(buff,buffer_string); //servername
 repeat(10)
 {
 ds_queue_enqueue(list_of_players.playernames,buffer_read(buff,buffer_string)); //player names
 }
+}
+
+
 
 buffer_delete(buff); // GM should delete itself, but prevent...
 //------------ end of reading

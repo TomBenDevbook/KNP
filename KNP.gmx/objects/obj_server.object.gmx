@@ -97,6 +97,51 @@ event_user(0);
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>battling clients</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>battling_A=-1;
+battling_B=-1;
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="2" enumb="1">
       <action>
@@ -163,6 +208,45 @@ write_log('TCP gameserver '+string(gameserver)+' created at serverport '+string(
 
 
  
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// posílá se jen soupeřům a jen tyto věci:
+//
+// name, status, choice, index
+
+if battling_A&gt;0 &amp;&amp; battling_B&gt;0 // boj je započat
+{
+if (battling_A).status='ready'||(battling_B).status='ready' //dokud je někdo ze soupeřů jen ready, posílá se steady, kamen, index 0
+{
+quicksend(servername,(battling_A).socket,(battling_A).name,'steady','kamen',0,(battling_B).name,'steady','kamen',0);
+quicksend(servername,(battling_B).socket,(battling_A).name,'steady','kamen',0,(battling_B).name,'steady','kamen',0);
+}
+
+
+
+}
+
+
 </string>
           </argument>
         </arguments>
@@ -303,13 +387,18 @@ write_log('Data arrived to id '+string(id)+' (type,name,status,choice,index): '+
 var buff=buffer_create(1024,buffer_grow,1), slid;
 
 buffer_seek(buff,buffer_seek_start,0);
+
+buffer_write(buff,buffer_string,'slow'); // síťový režim pomalý
 buffer_write(buff,buffer_string,servername); //server name
 
 i=1;
 repeat(10)
 {
 slid=pl[i];
-if slid&gt;0 buffer_write(buff,buffer_string,(slid).name)
+if slid&gt;0 
+{
+buffer_write(buff,buffer_string,(slid).name); //poslat jméno
+}
 else 
 {
  if i&gt;players buffer_write(buff,buffer_string,'disabled')
@@ -450,6 +539,88 @@ obj_server.pl[number]=id;
 draw_set_halign(fa_left);
 draw_text(10,10,'Connected '+string(instance_number(slot))+' of '+string(players));
 draw_set_halign(fa_middle);
+
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="112">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>START battle manually</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>select two random slots for battling</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+//najít nachystané klienty
+slot_seznam=ds_list_create();
+with(slot)
+{
+if status='ready' ds_list_add(obj_server.slot_seznam,id);
+}
+
+if ds_list_size(slot_seznam)&gt;=2 // pokud se našli alespoň dva zamíchat seznam prvním dvěma nastavit status battle
+{
+ds_list_shuffle(slot_seznam);
+battling_A=ds_list_find_value(slot_seznam,0);
+battling_B=ds_list_find_value(slot_seznam,1);
+}
+
+
 
 
 

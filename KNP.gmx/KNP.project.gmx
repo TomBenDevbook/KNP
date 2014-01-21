@@ -9,7 +9,16 @@
     <sprite>sprites\s_button</sprite>
     <sprite>sprites\s_radio</sprite>
     <sprite>sprites\s_type</sprite>
+    <sprite>sprites\s_b_type</sprite>
     <sprite>sprites\s_name</sprite>
+    <sprites name="signs">
+      <sprite>sprites\s_kamen</sprite>
+      <sprite>sprites\s_nuzky</sprite>
+      <sprite>sprites\s_papir</sprite>
+      <sprite>sprites\i_kamen</sprite>
+      <sprite>sprites\i_nuzky</sprite>
+      <sprite>sprites\i_papir</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -24,6 +33,7 @@
     <script>scripts\blekota.gml</script>
     <script>scripts\is_between.gml</script>
     <script>scripts\IP_control.gml</script>
+    <script>scripts\quicksend.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\small_font</font>
