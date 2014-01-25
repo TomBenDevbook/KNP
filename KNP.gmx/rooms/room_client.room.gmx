@@ -52,6 +52,7 @@
   <instances>
     <instance objName="showMyIP" x="256" y="448" name="inst_2E2A4A97" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="list_of_players" x="480" y="32" name="inst_FB32DD5E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="print_client_quicksend" x="96" y="64" name="inst_8AF5E8A1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

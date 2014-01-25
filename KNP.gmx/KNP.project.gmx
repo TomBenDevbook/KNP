@@ -60,6 +60,7 @@
       <object>objects\slot</object>
       <object>objects\obj_client</object>
       <object>objects\list_of_players</object>
+      <object>objects\print_client_quicksend</object>
     </objects>
   </objects>
   <rooms name="rooms">

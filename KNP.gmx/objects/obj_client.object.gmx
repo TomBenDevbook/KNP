@@ -36,6 +36,17 @@ status='ready';          //waiting for server data
 choice='nothing';        //nothing, stone, scissors, paper
 index=string(0);
 
+servername='';
+
+//battling variables
+A_name=''; //name
+A_status=''; 
+A_choice=''; 
+A_index=''; 
+B_name=''; //name
+B_status=''; 
+B_choice=''; 
+B_index=''; 
 
 </string>
           </argument>
@@ -380,6 +391,36 @@ ds_queue_enqueue(list_of_players.playernames,buffer_read(buff,buffer_string)); /
 }
 }
 
+//--- QUICk READING -----
+//quicksend(servername,(battling_A).socket,(battling_A).name,'steady','kamen',0,(battling_B).name,'steady','kamen',0);
+if rezim=='quick'
+{
+list_of_players.servername=buffer_read(buff,buffer_string); //servername
+S=buffer_read(buff,buffer_string); //id A ( maybe useful in future )
+S=buffer_read(buff,buffer_string); //id B ( maybe useful in future )
+
+A_name=buffer_read(buff,buffer_string); //name
+A_status=buffer_read(buff,buffer_string); 
+A_choice=buffer_read(buff,buffer_string); 
+A_index=buffer_read(buff,buffer_string); 
+B_name=buffer_read(buff,buffer_string); //name
+B_status=buffer_read(buff,buffer_string); 
+B_choice=buffer_read(buff,buffer_string); 
+B_index=buffer_read(buff,buffer_string); 
+
+if (A_name==name)
+{
+status=A_status;
+choice=A_choice;
+index=A_index;
+}
+if (B_name==name)
+{
+status=B_status;
+choice=B_choice;
+index=B_index;
+}
+}
 
 
 buffer_delete(buff); // GM should delete itself, but prevent...

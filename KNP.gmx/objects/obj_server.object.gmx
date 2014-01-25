@@ -339,6 +339,12 @@ with(pl[real(ds_map_find_value(async_load, "socket"))])
 obj_server.pl[number]=-1; // delete self from array
 instance_destroy();
 }
+
+//stop battling if disconnected
+battling_A=-1;
+battling_B=-1;
+
+
 effect_create_above(ef_ring,50,50,1,c_red);
 write_log('Socket: '+string(ds_map_find_value(async_load, "socket"))+' disconnected.');
 }
