@@ -242,6 +242,25 @@ quicksend(servername,(battling_A).socket,(battling_A).name,'steady','kamen',0,(b
 quicksend(servername,(battling_B).socket,(battling_A).name,'steady','kamen',0,(battling_B).name,'steady','kamen',0);
 }
 
+//stav steady by šlo přeskočit, ale nechávám ho kvůli možnosti měření doby reakce dřív než dual začne
+if (battling_A).status='steady'||(battling_B).status='steady' //server chytil odpověď a startuje reálný duel
+{
+quicksend(servername,(battling_A).socket,(battling_A).name,'go',(battling_A).choice,0,(battling_B).name,'go',(battling_B).choice,0);
+quicksend(servername,(battling_B).socket,(battling_A).name,'go',(battling_A).choice,0,(battling_B).name,'go',(battling_B).choice,0);
+}
+
+//hlavní smyčka
+if (battling_A).status='go'||(battling_B).status='go' //server chytil odpověď a startuje reálný duel
+{
+serverindex='';
+
+if battling_A.index!=battling_B.index { serverindex=string(min(real(battling_A.index),real(battling_B.index))); } //nejsou shodné, čeká se na zvýšení
+else { serverindex=string(real(battling_A.index)+1); } //jsou shodné, zvýšit
+
+quicksend(servername,(battling_A).socket,(battling_A).name,'go',(battling_A).choice,serverindex,(battling_B).name,'go',(battling_B).choice,serverindex);
+quicksend(servername,(battling_B).socket,(battling_A).name,'go',(battling_A).choice,serverindex,(battling_B).name,'go',(battling_B).choice,serverindex);
+}
+
 
 
 }

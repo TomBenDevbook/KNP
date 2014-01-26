@@ -61,6 +61,7 @@
       <object>objects\obj_client</object>
       <object>objects\list_of_players</object>
       <object>objects\print_client_quicksend</object>
+      <object>objects\duel_self_sign</object>
     </objects>
   </objects>
   <rooms name="rooms">
